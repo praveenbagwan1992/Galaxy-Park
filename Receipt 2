@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Colony Maintenance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; padding: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    input, button { padding: 10px; margin: 5px 0; width: 100%; max-width: 300px; }
+  </style>
+</head>
+<body>
+
+<h2>Plot Maintenance Details</h2>
+
+<input type="text" id="plotInput" placeholder="Enter Plot Number">
+<button onclick="fetchData()">Get Details</button>
+
+<div id="result"></div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec"; // Replace with your URL
+
+function fetchData() {
+  const plot = document.getElementById("plotInput").value;
+  fetch(`${scriptURL}?plot=${plot}`)
+    .then(res => res.json())
+    .then(data => {
+      let html = `<h3>${data.name}</h3>`;
+      html += `<table><tr><th>माह</th><th>रकम</th><th>प्राप्त रकम</th><th>शेष राशी</th><th>प्राप्ति दिनांक</th><th>रिमार्क</th></tr>`;
+      data.maintenance.forEach(row => {
+        html += `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`;
+      });
+      html += `</table><h4>कुल बकाया राशि: ₹${data.pending}</h4>`;
+      document.getElementById("result").innerHTML = html;
+    })
+    .catch(err => {
+      document.getElementById("result").innerHTML = "Error fetching data.";
+      console.error(err);
+    });
+}
+</script>
+
+</body>
+</html>
