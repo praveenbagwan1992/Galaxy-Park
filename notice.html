@@ -1,29 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Notice - Galaxy Park Colony</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>नोटिस बोर्ड - Galaxy Park</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    ul {
+      background: white;
+      padding: 20px;
+      list-style: disc;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    li {
+      font-size: 18px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+    .loading {
+      text-align: center;
+      font-size: 18px;
+      color: #007BFF;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Galaxy Park Colony</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="notice.html">Notice</a>
-      <a href="receipt.html">Generate Receipt</a>
-    </nav>
-  </header>
 
-  <main>
-    <h2>Latest Notices</h2>
-    <ul>
-      <li>Notice 1: [You can edit this manually]</li>
-      <li>Notice 2: [You can edit this manually]</li>
-    </ul>
-  </main>
+  <h2>नोटिस बोर्ड</h2>
+
+  <div class="loading" id="loading">नोटिस लोड हो रहे हैं...</div>
+  <ul id="noticeList" style="display:none;"></ul>
+
+  <script>
+    const scriptURL = "YOUR_SCRIPT_URL_HERE"; // Replace with your actual deployed Web App URL
+
+    fetch(`${scriptURL}?action=getNotices`)
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("noticeList");
+        const loading = document.getElementById("loading");
+
+        loading.style.display = "none";
+        list.style.display = "block";
+
+        if (data.notices.length === 0) {
+          list.innerHTML = "<li>कोई नोटिस उपलब्ध नहीं है।</li>";
+        } else {
+          data.notices.forEach(notice => {
+            const li = document.createElement("li");
+            li.textContent = notice;
+            list.appendChild(li);
+          });
+        }
+      })
+      .catch(error => {
+        document.getElementById("loading").textContent = "नोटिस लोड करने में त्रुटि हुई।";
+        console.error(error);
+      });
+  </script>
+
 </body>
 </html>
