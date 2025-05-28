@@ -1,17 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maintenance Entry - Galaxy Park</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Maintenance Entry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+    input, select, button { display: block; margin: 10px auto; padding: 10px; width: 90%; max-width: 400px; }
+    .hidden { display: none; }
+    .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Maintenance Entry</h1>
-  </header>
-  <main>
-    <p style="text-align:center; font-size:18px; margin-top:50px;">The page is under construction.</p>
-  </main>
+<div class="container">
+  <div id="loginSection">
+    <h2>Login</h2>
+    <input type="text" id="userid" placeholder="User ID">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="loginError" style="color: red; text-align: center;"></p>
+  </div>
+
+  <div id="entrySection" class="hidden">
+    <h2>Maintenance Entry</h2>
+    <input type="text" id="plot" placeholder="Plot Number">
+    <button onclick="getDetails()">Get Detail</button>
+    <p id="owner"></p>
+    <p id="pending"></p>
+
+    <input type="number" id="amount" placeholder="Amount">
+    <input type="month" id="month">
+    <input type="date" id="receiptDate">
+    <select id="mode">
+      <option value="">Select Mode</option>
+      <option value="नगद">नगद</option>
+      <option value="ऑनलाइन">ऑनलाइन</option>
+    </select>
+    <select id="cashWith">
+      <option value="">Select Cash With</option>
+      <option value="GJA">GJA</option>
+      <option value="George Uncle">George Uncle</option>
+    </select>
+
+    <button onclick="submitEntry()">Submit</button>
+    <p id="resultMsg" style="color: green; text-align: center;"></p>
+  </div>
+</div>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec'; // Replace with your actual deployed Apps Script URL
+
+  function login() {
+    const user = document.getElementById("userid").value;
+    const pass = document.getElementById("password").value;
+
+    if ((user === "GOPALROKDE" && pass === "Galaxy@2025") ||
+        (user === "PRAVEENBAGWAN" && pass === "Speed@147")) {
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("entrySection").classList.remove("hidden");
+    } else {
+      document.getElementById("loginError").innerText = "Invalid ID or Password";
+    }
+  }
+
+  function getDetails() {
+    const plot = document.getElementById("plot").value;
+    fetch(`${scriptURL}?action=getPendingDetails&plot=${plot}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("owner").innerText = `Plot Owner: ${data.owner}`;
+          document.getElementById("pending").innerText = `Pending: ${data.pending}`;
+        } else {
+          document.getElementById("owner").innerText = "No data found.";
+          document.getElementById("pending").innerText = "";
+        }
+      });
+  }
+
+  function submitEntry() {
+    const plot = document.getElementById("plot").value;
+    const amount = document.getElementById("amount").value;
+    const month = document.getElementById("month").value;
+    const date = document.getElementById("receiptDate").value;
+    const mode = document.getElementById("mode").value;
+    const cashWith = document.getElementById("cashWith").value;
+
+    const formData = new URLSearchParams();
+    formData.append("plot", plot);
+    formData.append("amount", amount);
+    formData.append("month", month);
+    formData.append("date", date);
+    formData.append("mode", mode);
+    formData.append("cashWith", cashWith);
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.text())
+    .then(res => {
+      document.getElementById("resultMsg").innerText = "Entry submitted successfully!";
+    })
+    .catch(err => {
+      document.getElementById("resultMsg").innerText = "Error submitting entry.";
+    });
+  }
+</script>
 </body>
 </html>
