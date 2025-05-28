@@ -1,31 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gallery - Galaxy Park Colony</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Gallery - Galaxy Park</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Galaxy Park Colony</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="notice.html">Notice</a>
-      <a href="receipt.html">Generate Receipt</a>
-    </nav>
-  </header>
 
-  <main>
-    <h2>Photo Gallery</h2>
-    <div class="gallery">
-      <img src="img1.jpg" alt="Event 1">
-      <img src="img2.jpg" alt="Event 2">
-      <img src="img3.jpg" alt="Event 3">
-      <!-- Add more images here -->
-    </div>
-  </main>
+  <h2>Galaxy Park Gallery</h2>
+
+  <div class="gallery" id="gallery">
+    <!-- Images will appear here -->
+  </div>
+
+  <script>
+    // Add your image URLs here
+    const imageUrls = [
+      "https://drive.google.com/file/d/1y3vMQxVvbhkQGqR8ugSVkT5YFyrbl145/view?usp=sharing",
+      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.olx.in%2Fitem%2Flands-plots-c1729-for-sale-1050-sq-yd-in-limbodi-indore-iid-1805063650&psig=AOvVaw1O7TNtQ4hKr6vEvUmEEVhY&ust=1748544149205000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCB2Nnoxo0DFQAAAAAdAAAAABAK",
+     
+      // Add more URLs
+    ];
+
+    const galleryDiv = document.getElementById("gallery");
+    imageUrls.forEach(url => {
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "Gallery image";
+      galleryDiv.appendChild(img);
+    });
+  </script>
+
 </body>
 </html>
