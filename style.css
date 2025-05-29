@@ -107,8 +107,9 @@ footer {
 }
 
 .logo {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 60px; /* adjust as needed */
+  height: 60px;
+  border-radius: 50%; /* makes it round */
+  object-fit: cover; /* ensures image fits inside the circle */
 }
+
