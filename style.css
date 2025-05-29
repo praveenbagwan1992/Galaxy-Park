@@ -98,3 +98,15 @@ footer {
   font-size: 14px;
   padding-bottom: 20px;
 }
+.logo-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+}
