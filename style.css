@@ -33,12 +33,16 @@ nav ul {
 }
 
 nav a {
+  background: #0055aa;       /* Added background to separate tabs */
+  margin: 4px;                /* Adds space between each tab */
+  display: inline-block;      /* Ensures proper spacing */
   color: white;
   text-decoration: none;
   padding: 8px 15px;
   border-radius: 4px;
   transition: background 0.3s ease;
 }
+
 
 nav a:hover,
 nav a.active {
