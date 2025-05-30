@@ -8,56 +8,89 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 20px;
-      background: #f7f9fc;
+      background: #eef2f7;
       color: #333;
+    }
+
+    header {
+      background: #003366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+
+    .title-text {
+      font-size: 24px;
+      font-weight: bold;
     }
 
     h1 {
       text-align: center;
+      margin: 20px 0 10px;
       color: #2c3e50;
     }
 
     .contact-card {
       background: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      max-width: 600px;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      max-width: 800px;
       margin: 20px auto;
     }
 
-    .contact-card h2 {
-      border-bottom: 2px solid #3498db;
-      padding-bottom: 5px;
-      color: #3498db;
+    .section-title {
+      color: #007BFF;
+      border-left: 4px solid #007BFF;
+      padding-left: 10px;
+      margin-bottom: 15px;
+      font-size: 20px;
     }
 
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    li {
+    .person {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f7f9fc;
+      padding: 10px 15px;
       margin: 10px 0;
-      padding-left: 25px;
-      position: relative;
+      border-left: 4px solid #3498db;
+      border-radius: 8px;
     }
 
-    li::before {
-      content: "📞";
-      position: absolute;
-      left: 0;
-      color: #3498db;
+    .person-info {
+      display: flex;
+      flex-direction: column;
     }
 
-    .role {
+    .designation {
       font-weight: bold;
-      color: #2c3e50;
+      font-size: 14px;
+      color: #555;
     }
 
-    .members li::before {
-      content: "👤";
+    .name {
+      font-size: 18px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .phone {
+      font-size: 16px;
+      font-weight: bold;
+      color: #007BFF;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
     }
 
     footer {
@@ -66,31 +99,115 @@
       font-size: 0.9em;
       color: #777;
     }
+
+    @media screen and (max-width: 600px) {
+      .person {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .phone {
+        writing-mode: horizontal-tb;
+        transform: none;
+        margin-top: 5px;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <header>
+    <img src="galaxy.png" alt="Galaxy Park Logo" class="logo">
+    <div class="title-text">Galaxy Park Colony</div>
+  </header>
+
   <h1>Contact Authorities</h1>
 
   <div class="contact-card">
-    <h2>Managing Committee</h2>
-    <ul>
-      <li><span class="role">President:</span> Subhash Panchal – 9826716693</li>
-      <li><span class="role">Vice President:</span> Ashok Patidar – 9977211454</li>
-      <li><span class="role">Secretary:</span> Devendra Patnare – 9827221108</li>
-      <li><span class="role">Treasurer:</span> Praveen Bagwan – 9977552106</li>
-    </ul>
+    <div class="section-title">Managing Committee</div>
 
-    <h2>Members</h2>
-    <ul class="members">
-      <li>Sawan Satle – 9977552106</li>
-      <li>Durgesh Choudhary – 9977552106</li>
-      <li>George Mathew – 9977552106</li>
-      <li>Vijay Bhargav – 9977552106</li>
-      <li>Dr. Chandrakant – 9977552106</li>
-      <li>Manju Tiwari – 9977552106</li>
-      <li>Pratyancha Sarwan – 9977552106</li>
-    </ul>
+    <div class="person">
+      <div class="person-info">
+        <div class="designation">President</div>
+        <div class="name">Subhash Panchal</div>
+      </div>
+      <div class="phone">9826716693</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="designation">Vice President</div>
+        <div class="name">Ashok Patidar</div>
+      </div>
+      <div class="phone">9977211454</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="designation">Secretary</div>
+        <div class="name">Devendra Patnare</div>
+      </div>
+      <div class="phone">9827221108</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="designation">Treasurer</div>
+        <div class="name">Praveen Bagwan</div>
+      </div>
+      <div class="phone">9977552106</div>
+    </div>
+
+    <div class="section-title">Members</div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">Sawan Satle</div>
+      </div>
+      <div class="phone">7400522252</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">Durgesh Choudhary</div>
+      </div>
+      <div class="phone">7694087694</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">George Mathew</div>
+      </div>
+      <div class="phone">9630325887</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">Vijay Bhargav</div>
+      </div>
+      <div class="phone">9425478646</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">Dr. Chandrakant</div>
+      </div>
+      <div class="phone">9009263600</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">Manju Tiwari</div>
+      </div>
+      <div class="phone">9039372033</div>
+    </div>
+
+    <div class="person">
+      <div class="person-info">
+        <div class="name">Pratyancha Sarwan</div>
+      </div>
+      <div class="phone">8871552052</div>
+    </div>
   </div>
 
   <footer>
