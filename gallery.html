@@ -8,52 +8,100 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 20px;
       background: #f2f2f2;
-    }
-    h2 {
-      text-align: center;
       color: #333;
     }
+
+    header {
+      background: #003366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+
+    .title-text {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+      color: #2c3e50;
+    }
+
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 15px;
-      margin-top: 30px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
+
     .gallery img {
       width: 100%;
       height: auto;
+      object-fit: cover;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
     }
+
     .gallery img:hover {
       transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-  <h2>Galaxy Park Gallery</h2>
+  <header>
+    <img src="galaxy.png" alt="Galaxy Park Logo" class="logo">
+    <div class="title-text">Galaxy Park Colony</div>
+  </header>
+
+  <h2>Photo Gallery</h2>
 
   <div class="gallery" id="gallery">
-    <!-- Images will appear here -->
+    <!-- Images will be loaded here -->
   </div>
 
+  <footer>
+    © 2025 Galaxy Park Colony. All Rights Reserved.
+  </footer>
+
   <script>
-    // Add your image URLs here
-    const imageUrls = [
-      "https://drive.google.com/file/d/1y3vMQxVvbhkQGqR8ugSVkT5YFyrbl145/view?usp=sharing",
-      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.olx.in%2Fitem%2Flands-plots-c1729-for-sale-1050-sq-yd-in-limbodi-indore-iid-1805063650&psig=AOvVaw1O7TNtQ4hKr6vEvUmEEVhY&ust=1748544149205000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCB2Nnoxo0DFQAAAAAdAAAAABAK",
-     
-      // Add more URLs
+    // Array of local image filenames
+    const imageFiles = [
+      "galaxy1.png",
+      "galaxy2.png",
+      "galaxy3.png",
+      "galaxy4.png",
+      "galaxy5.png"
+      // Add more filenames as needed
     ];
 
     const galleryDiv = document.getElementById("gallery");
-    imageUrls.forEach(url => {
+    imageFiles.forEach(file => {
       const img = document.createElement("img");
-      img.src = url;
+      img.src = file;
       img.alt = "Gallery image";
       galleryDiv.appendChild(img);
     });
