@@ -2,40 +2,102 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>Maintenance Entry</title>
+  <title>Galaxy Park - Maintenance Entry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-    input, select, button { display: block; margin: 10px auto; padding: 10px; width: 90%; max-width: 400px; }
-    .hidden { display: none; }
-    .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+    label {
+      margin: 5px auto 0;
+      display: block;
+      width: 90%;
+      max-width: 400px;
+      font-weight: bold;
+    }
+    .hidden {
+      display: none;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .error {
+      color: red;
+      text-align: center;
+    }
+    .success {
+      color: green;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 <div class="container">
+  <header>
+    <img src="galaxy.png" alt="Galaxy Park Logo" class="logo">
+    <h2>Galaxy Park Maintenance Entry</h2>
+  </header>
+
   <div id="loginSection">
-    <h2>Login</h2>
+    <label for="userid">यूज़र आईडी</label>
     <input type="text" id="userid" placeholder="User ID">
+    
+    <label for="password">पासवर्ड</label>
     <input type="password" id="password" placeholder="Password">
+
     <button onclick="login()">Login</button>
-    <p id="loginError" style="color: red; text-align: center;"></p>
+    <p id="loginError" class="error"></p>
   </div>
 
   <div id="entrySection" class="hidden">
-    <h2>Maintenance Entry</h2>
+    <label for="plot">प्लॉट नंबर</label>
     <input type="text" id="plot" placeholder="Plot Number">
     <button onclick="getDetails()">Get Detail</button>
     <p id="owner"></p>
     <p id="pending"></p>
 
+    <label for="amount">राशि</label>
     <input type="number" id="amount" placeholder="Amount">
+
+    <label for="month">माह</label>
     <input type="month" id="month">
+
+    <label for="receiptDate">रसीद दिनांक</label>
     <input type="date" id="receiptDate">
+
+    <label for="mode">भुगतान का माध्यम</label>
     <select id="mode">
       <option value="">Select Mode</option>
       <option value="नगद">नगद</option>
       <option value="ऑनलाइन">ऑनलाइन</option>
     </select>
+
+    <label for="cashWith">राशी किसके पास</label>
     <select id="cashWith">
       <option value="">Select Cash With</option>
       <option value="GJA">GJA</option>
@@ -43,15 +105,15 @@
     </select>
 
     <button onclick="submitEntry()">Submit</button>
-    <p id="resultMsg" style="color: green; text-align: center;"></p>
+    <p id="resultMsg" class="success"></p>
   </div>
 </div>
 
 <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec'; // Replace with your actual deployed Apps Script URL
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec'; // Replace with correct URL
 
   function login() {
-    const user = document.getElementById("userid").value;
+    const user = document.getElementById("userid").value.trim().toUpperCase();
     const pass = document.getElementById("password").value;
 
     if ((user === "GOPALROKDE" && pass === "Galaxy@2025") ||
@@ -64,8 +126,12 @@
   }
 
   function getDetails() {
-    const plot = document.getElementById("plot").value;
-    fetch(`${scriptURL}?action=getPendingDetails&plot=${plot}`)
+    const plot = document.getElementById("plot").value.trim();
+    if (!plot) {
+      alert("Please enter plot number.");
+      return;
+    }
+    fetch(`${scriptURL}?action=getPendingDetails&plot=${encodeURIComponent(plot)}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -75,18 +141,26 @@
           document.getElementById("owner").innerText = "No data found.";
           document.getElementById("pending").innerText = "";
         }
+      }).catch(err => {
+        document.getElementById("owner").innerText = "Error fetching data.";
       });
   }
 
   function submitEntry() {
-    const plot = document.getElementById("plot").value;
+    const plot = document.getElementById("plot").value.trim();
     const amount = document.getElementById("amount").value;
     const month = document.getElementById("month").value;
     const date = document.getElementById("receiptDate").value;
     const mode = document.getElementById("mode").value;
     const cashWith = document.getElementById("cashWith").value;
 
-    const formData = new URLSearchParams();
+    if (!plot || !amount || !month || !date || !mode || !cashWith) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("action", "submitEntry"); // Make sure to handle this in your Apps Script
     formData.append("plot", plot);
     formData.append("amount", amount);
     formData.append("month", month);
