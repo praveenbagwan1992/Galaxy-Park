@@ -4,41 +4,21 @@
   <meta charset="UTF-8">
   <title>मेंटेनेंस विवरण - गैलेक्सी पार्क कॉलोनी</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Page-specific CSS only -->
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
       background: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: #003366;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 15px;
-    }
-
-    .title-text {
-      font-size: 24px;
-      font-weight: bold;
     }
 
     main {
       padding: 20px;
     }
 
-    h2, h3, h4 {
+    h2, h3 {
       text-align: center;
       color: #333;
     }
@@ -111,7 +91,6 @@
 
       body {
         background: white;
-        padding: 0;
       }
 
       header {
@@ -119,36 +98,42 @@
         color: black;
         border-bottom: 2px solid #000;
       }
-
-      .logo {
-        margin-right: 10px;
-      }
     }
   </style>
 </head>
+
 <body>
 
+  <!-- Header -->
   <header>
-    <img src="galaxy.png" alt="Logo" class="logo">
-    <div class="title-text">Galaxy Park Colony</div>
+    <div class="logo-title">
+      <img src="galaxy.png" alt="Logo" class="logo">
+      <div class="title-text">Galaxy Park Colony</div>
+    </div>
   </header>
 
+  <!-- Main Content -->
   <main>
+
     <h2>Plot Maintenance Details</h2>
 
     <input type="text" id="plotInput" placeholder="प्लॉट नंबर (जैसे 16 A, 216) दर्ज करें">
     <button onclick="fetchData()" class="btn">विवरण प्राप्त करें</button>
 
-    <div id="loading" class="loading" style="display:none;">डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
+    <div id="loading" class="loading" style="display:none;">
+      डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...
+    </div>
 
     <div id="result"></div>
 
-    <div class="button-group" style="display:none;" id="printButtons">
+    <div class="button-group" id="printButtons" style="display:none;">
       <button class="btn" onclick="window.print()">रसीद प्रिंट करें</button>
       <button class="btn" onclick="downloadPDF()">PDF डाउनलोड करें</button>
     </div>
+
   </main>
 
+  <!-- Script -->
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec";
 
@@ -170,35 +155,44 @@
       fetch(`${scriptURL}?plot=${plot}`)
         .then(res => res.json())
         .then(data => {
+
           let html = `
-  <div class="updated-upto">
-    Updated upto - ${data.updated_upto}
-  </div>
+            <!-- Updated Upto (Top) -->
+            <div class="updated-upto">
+              Updated upto - ${data.updated_upto}
+            </div>
 
-  <h3>नाम: ${data.name}</h3>
-`;
+            <h3>नाम: ${data.name}</h3>
 
-          html += `<table>
-                    <tr>
-                      <th>माह</th>
-                      <th>देय राशी</th>
-                      <th>प्राप्त राशी</th>
-                      <th>शेष राशी</th>
-                      <th>प्राप्ति दिनांक</th>
-                      <th>रिमार्क</th>
-                    </tr>`;
+            <table>
+              <tr>
+                <th>माह</th>
+                <th>देय राशी</th>
+                <th>प्राप्त राशी</th>
+                <th>शेष राशी</th>
+                <th>प्राप्ति दिनांक</th>
+                <th>रिमार्क</th>
+              </tr>
+          `;
 
           data.maintenance.forEach(row => {
-            html += `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`;
+            html += `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`;
           });
 
-          html += `</table>
-                   
-                   <div class="footer-note">
-                      अप्रैल 2024 एवं आगामी माह के लिए प्राप्त मेंटेनेंस का विवरण है , पूर्व के विवरण के लिए निचे दिए गए नंबर पर संपर्क करें | यह एक सिस्टम जनरेटेड मेंटेनेंस का विवरण है, यदि कोई त्रुटी हो तो निचे दिए गए नंबर पर संपर्क करें | <br>
-                      <strong>प्रवीण बागवान - 9977552106</strong><br><br>
-                      <strong>Updated upto - ${data.updated_upto}</strong>
-                   </div>`;
+          html += `
+            </table>
+
+            <!-- Footer -->
+            <div class="footer-note">
+              अप्रैल 2024 एवं आगामी माह के लिए प्राप्त मेंटेनेंस का विवरण है , पूर्व के विवरण के लिए निचे दिए गए नंबर पर संपर्क करें |
+              यह एक सिस्टम जनरेटेड मेंटेनेंस का विवरण है, यदि कोई त्रुटी हो तो निचे दिए गए नंबर पर संपर्क करें | <br><br>
+
+              <strong>प्रवीण बागवान - 9977552106</strong><br><br>
+
+              <!-- Updated Upto (Bottom) -->
+              <strong>Updated upto - ${data.updated_upto}</strong>
+            </div>
+          `;
 
           resultDiv.innerHTML = html;
           loadingDiv.style.display = "none";
@@ -212,7 +206,7 @@
     }
 
     function downloadPDF() {
-      window.print(); // Basic browser-based PDF download
+      window.print();
     }
   </script>
 
