@@ -1,4 +1,5 @@
 /* Reset some default */
+body { background: yellow !important; }
 
 
 * {
@@ -9,11 +10,12 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f4f8;
+  background: yellow !important;
   color: #333;
   line-height: 1.6;
   padding: 10px;
 }
+
 
 header {
   background: #004080;
@@ -122,6 +124,7 @@ footer {
   border-radius: 50%; /* makes it round */
   object-fit: cover; /* ensures image fits inside the circle */
 }
+
 
 
 
