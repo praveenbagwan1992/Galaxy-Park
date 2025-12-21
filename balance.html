@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Balance Sheet - Galaxy Park</title>
+  <title>Balance Sheet – Galaxy Park</title>
 
   <style>
     body {
@@ -57,32 +57,51 @@
 <body>
 
 <header>
-  <h1>Galaxy Park – Balance Sheet</h1>
+  <h1>Galaxy Park – Monthly Balance Sheets</h1>
 </header>
 
-<div class="container">
+<div class="container" id="balanceContainer"></div>
 
-  <!-- Current Month -->
-  <div class="sheet-card">
-    <h2>Sep-25 Balance Sheet</h2>
-    <img 
-      src="https://raw.githubusercontent.com/praveenbagwan1992/Galaxy-Park/main/sep-25.jpg"
-      alt="Sep-25 Balance Sheet">
-  </div>
+<p class="note">
+  * Balance sheets are published month-wise for residents’ information.
+</p>
 
-  <!-- Previous Month -->
-  <div class="sheet-card">
-    <h2>Oct-25 Balance Sheet</h2>
-    <img 
-      src="https://raw.githubusercontent.com/praveenbagwan1992/Galaxy-Park/main/oct-25.jpg"
-      alt="Oct-25 Balance Sheet">
-  </div>
+<script>
+  const repoBase =
+    "https://raw.githubusercontent.com/praveenbagwan1992/Galaxy-Park/main/balance-sheet/";
 
-  <p class="note">
-    * This balance sheet is published for residents’ information.
-  </p>
+  // 👇 ADD MONTHS HERE ONLY (once)
+  const months = [
+    "Apr-23","May-23","Jun-23","Jul-23","Aug-23","Sep-23",
+    "Oct-23","Nov-23","Dec-23",
+    "Jan-24","Feb-24","Mar-24",
+    "Apr-24","May-24","Jun-24","Jul-24","Aug-24","Sep-24",
+    "Oct-24","Nov-24","Dec-24",
+    "Jan-25","Feb-25","Mar-25","Apr-25","May-25","Jun-25",
+    "Jul-25","Aug-25","Sep-25","Oct-25"
+  ];
 
-</div>
+  const container = document.getElementById("balanceContainer");
+
+  months.forEach(month => {
+    const card = document.createElement("div");
+    card.className = "sheet-card";
+
+    const title = document.createElement("h2");
+    title.innerText = month + " Balance Sheet";
+
+    const img = document.createElement("img");
+    img.src = repoBase + month + ".jpg";
+    img.alt = month + " Balance Sheet";
+
+    // Hide card if image does not exist
+    img.onerror = () => card.style.display = "none";
+
+    card.appendChild(title);
+    card.appendChild(img);
+    container.appendChild(card);
+  });
+</script>
 
 </body>
 </html>
