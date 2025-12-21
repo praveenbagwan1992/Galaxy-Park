@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>मेंटेनेंस विवरण - गैलेक्सी पार्क कॉलोनी</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -38,7 +39,7 @@
       padding: 20px;
     }
 
-    h2, h3, h4 {
+    h2, h3 {
       text-align: center;
       color: #333;
     }
@@ -105,13 +106,12 @@
     }
 
     @media print {
-      .button-group, input, button {
+      .button-group, input, button, #updatedTop {
         display: none;
       }
 
       body {
         background: white;
-        padding: 0;
       }
 
       header {
@@ -119,111 +119,114 @@
         color: black;
         border-bottom: 2px solid #000;
       }
-
-      .logo {
-        margin-right: 10px;
-      }
     }
   </style>
 </head>
+
 <body>
 
-  <header>
-    <img src="galaxy.png" alt="Logo" class="logo">
-    <div class="title-text">Galaxy Park Colony</div>
-  </header>
+<header>
+  <img src="galaxy.png" alt="Logo" class="logo">
+  <div class="title-text">Galaxy Park Colony</div>
+</header>
 
-  <main>
-    <h2>Plot Maintenance Details</h2>
+<main>
 
-    <input type="text" id="plotInput" placeholder="प्लॉट नंबर (जैसे 16 A, 216) दर्ज करें">
-    <button onclick="fetchData()" class="btn">विवरण प्राप्त करें</button>
+  <!-- MOBILE SAFE UPDATED UPTO -->
+  <div id="updatedTop"></div>
 
-    <div id="loading" class="loading" style="display:none;">डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
+  <h2>Plot Maintenance Details</h2>
 
-    <div id="result"></div>
+  <input type="text" id="plotInput" placeholder="प्लॉट नंबर (जैसे 16 A, 216)">
+  <button onclick="fetchData()" class="btn">विवरण प्राप्त करें</button>
 
-    <div class="button-group" style="display:none;" id="printButtons">
-      <button class="btn" onclick="window.print()">रसीद प्रिंट करें</button>
-      <button class="btn" onclick="downloadPDF()">PDF डाउनलोड करें</button>
-    </div>
-  </main>
-
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec";
-
-    function fetchData() {
-      const plot = document.getElementById("plotInput").value.trim();
-      const resultDiv = document.getElementById("result");
-      const loadingDiv = document.getElementById("loading");
-      const printButtons = document.getElementById("printButtons");
-
-      if (!plot) {
-        alert("कृपया प्लॉट नंबर दर्ज करें");
-        return;
-      }
-
-      resultDiv.innerHTML = "";
-      printButtons.style.display = "none";
-      loadingDiv.style.display = "block";
-
-      fetch(`${scriptURL}?plot=${plot}`)
-        .then(res => res.json())
-        .then(data => {
-        let html = `
-  <div style="
-    background: yellow;
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border: 2px solid red;
-    margin-bottom: 15px;
-  ">
-    🔴 UPDATED UPTO (TOP): ${data.updated_upto}
+  <div id="loading" class="loading" style="display:none;">
+    डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...
   </div>
 
-  <h3>नाम: ${data.name}</h3>
-`;
+  <div id="result"></div>
 
+  <div class="button-group" style="display:none;" id="printButtons">
+    <button class="btn" onclick="window.print()">रसीद प्रिंट करें</button>
+    <button class="btn" onclick="window.print()">PDF डाउनलोड करें</button>
+  </div>
 
-          html += `<table>
-                    <tr>
-                      <th>माह</th>
-                      <th>देय राशी</th>
-                      <th>प्राप्त राशी</th>
-                      <th>शेष राशी</th>
-                      <th>प्राप्ति दिनांक</th>
-                      <th>रिमार्क</th>
-                    </tr>`;
+</main>
 
-          data.maintenance.forEach(row => {
-            html += `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`;
-          });
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwUFpOZW6AJ1-bhzoz-Wpr8wdQ7ELJYOd8MH4L4JZkO13s0jhiVfWnfWvl9Pe6Gl7veaQ/exec";
 
-          html += `</table>
-                   
-                   <div class="footer-note">
-                      अप्रैल 2024 एवं आगामी माह के लिए प्राप्त मेंटेनेंस का विवरण है , पूर्व के विवरण के लिए निचे दिए गए नंबर पर संपर्क करें | यह एक सिस्टम जनरेटेड मेंटेनेंस का विवरण है, यदि कोई त्रुटी हो तो निचे दिए गए नंबर पर संपर्क करें | <br>
-                      <strong>प्रवीण बागवान - 9977552106</strong><br><br>
-                      <strong>Updated upto - ${data.updated_upto}</strong>
-                   </div>`;
+  function fetchData() {
+    const plot = document.getElementById("plotInput").value.trim();
+    const resultDiv = document.getElementById("result");
+    const loadingDiv = document.getElementById("loading");
+    const printButtons = document.getElementById("printButtons");
+    const updatedTop = document.getElementById("updatedTop");
 
-          resultDiv.innerHTML = html;
-          loadingDiv.style.display = "none";
-          printButtons.style.display = "block";
-        })
-        .catch(err => {
-          console.error(err);
-          resultDiv.innerHTML = "<p style='color:red;'>डेटा प्राप्त करने में त्रुटि हुई।</p>";
-          loadingDiv.style.display = "none";
+    if (!plot) {
+      alert("कृपया प्लॉट नंबर दर्ज करें");
+      return;
+    }
+
+    resultDiv.innerHTML = "";
+    updatedTop.innerHTML = "";
+    printButtons.style.display = "none";
+    loadingDiv.style.display = "block";
+
+    fetch(`${scriptURL}?plot=${plot}`)
+      .then(res => res.json())
+      .then(data => {
+
+        /* TOP UPDATED UPTO (MOBILE SAFE) */
+        updatedTop.innerHTML = `
+          <div style="
+            background: yellow;
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid red;
+            margin-bottom: 15px;
+          ">
+            🔴 UPDATED UPTO : ${data.updated_upto}
+          </div>
+        `;
+
+        let html = `<h3>नाम: ${data.name}</h3>`;
+
+        html += `<table>
+          <tr>
+            <th>माह</th>
+            <th>देय राशी</th>
+            <th>प्राप्त राशी</th>
+            <th>शेष राशी</th>
+            <th>प्राप्ति दिनांक</th>
+            <th>रिमार्क</th>
+          </tr>`;
+
+        data.maintenance.forEach(row => {
+          html += `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`;
         });
-    }
 
-    function downloadPDF() {
-      window.print(); // Basic browser-based PDF download
-    }
-  </script>
+        html += `</table>
+
+          <div class="footer-note">
+            यह एक सिस्टम जनरेटेड मेंटेनेंस विवरण है, यदि कोई त्रुटि हो तो संपर्क करें।<br>
+            <strong>प्रवीण बागवान - 9977552106</strong><br><br>
+            <strong>Updated upto - ${data.updated_upto}</strong>
+          </div>`;
+
+        resultDiv.innerHTML = html;
+        loadingDiv.style.display = "none";
+        printButtons.style.display = "block";
+      })
+      .catch(err => {
+        console.error(err);
+        loadingDiv.style.display = "none";
+        resultDiv.innerHTML = "<p style='color:red;'>डेटा प्राप्त करने में त्रुटि हुई।</p>";
+      });
+  }
+</script>
 
 </body>
-</html>  
+</html>
