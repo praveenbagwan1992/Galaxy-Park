@@ -170,7 +170,14 @@
       fetch(`${scriptURL}?plot=${plot}`)
         .then(res => res.json())
         .then(data => {
-          let html = `<h3>नाम: ${data.name}</h3>`;
+          let html = `
+  <div class="updated-upto">
+    Updated upto - ${data.updated_upto}
+  </div>
+
+  <h3>नाम: ${data.name}</h3>
+`;
+
           html += `<table>
                     <tr>
                       <th>माह</th>
