@@ -178,19 +178,22 @@
       .then(data => {
 
         /* TOP UPDATED UPTO (MOBILE SAFE) */
-        updatedTop.innerHTML = `
-          <div style="
-            background: yellow;
-            color: red;
-            font-weight: bold;
-            text-align: center;
-            padding: 10px;
-            border: 2px solid red;
-            margin-bottom: 15px;
-          ">
-            🔴 UPDATED UPTO : ${data.updated_upto}
-          </div>
-        `;
+      updatedTop.innerHTML = `
+  <div id="updatedBox" style="
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background: yellow;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 2px solid red;
+  ">
+    🔴 UPDATED UPTO : ${data.updated_upto}
+  </div>
+`;
+
 
         let html = `<h3>नाम: ${data.name}</h3>`;
 
