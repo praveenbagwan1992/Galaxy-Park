@@ -98,6 +98,14 @@ footer {
   font-size: 14px;
   padding-bottom: 20px;
 }
+.updated-upto {
+  text-align: center;
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
 .logo-title {
   display: flex;
   align-items: center;
@@ -112,4 +120,5 @@ footer {
   border-radius: 50%; /* makes it round */
   object-fit: cover; /* ensures image fits inside the circle */
 }
+
 
