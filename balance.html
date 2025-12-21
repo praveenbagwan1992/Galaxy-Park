@@ -4,14 +4,85 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Balance Sheet - Galaxy Park</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+
+    header {
+      background: #1e3a8a;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .sheet-card {
+      background: white;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .sheet-card h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #1e3a8a;
+    }
+
+    .sheet-card img {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
-  <header>
-    <h1>Balance Sheet</h1>
-  </header>
-  <main>
-    <p style="text-align:center; font-size:18px; margin-top:50px;">The page is under construction.</p>
-  </main>
+
+<header>
+  <h1>Galaxy Park – Balance Sheet</h1>
+</header>
+
+<div class="container">
+
+  <!-- Current Month -->
+  <div class="sheet-card">
+    <h2>Current Month Balance Sheet</h2>
+    <img 
+      src="https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/balance-sheet/balance_current.jpg"
+      alt="Current Month Balance Sheet">
+  </div>
+
+  <!-- Previous Month -->
+  <div class="sheet-card">
+    <h2>Previous Month Balance Sheet</h2>
+    <img 
+      src="https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/balance-sheet/balance_previous.jpg"
+      alt="Previous Month Balance Sheet">
+  </div>
+
+  <p class="note">
+    * This balance sheet is published for residents’ information.
+  </p>
+
+</div>
+
 </body>
 </html>
