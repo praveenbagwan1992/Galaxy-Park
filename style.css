@@ -1,4 +1,8 @@
 /* Reset some default */
+body {
+  background: yellow !important;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -120,5 +124,6 @@ footer {
   border-radius: 50%; /* makes it round */
   object-fit: cover; /* ensures image fits inside the circle */
 }
+
 
 
