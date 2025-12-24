@@ -220,9 +220,22 @@
               <tbody>
         `;
 
-       data.maintenance.forEach(row => {
-  html += `<tr>${row.map(cell => `<td>${cell ?? ""}</td>`).join("")}</tr>`;
+     data.maintenance.forEach(row => {
+  html += "<tr>";
+
+  row.forEach(cell => {
+    if (cell === 0) {
+      html += "<td>0</td>";          // force show numeric zero
+    } else if (cell === "" || cell === null || cell === undefined) {
+      html += "<td></td>";           // keep blanks blank
+    } else {
+      html += `<td>${cell}</td>`;    // normal value
+    }
+  });
+
+  html += "</tr>";
 });
+
 
 
         html += `
