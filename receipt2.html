@@ -53,36 +53,6 @@
       font-size: 16px;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
-
-    th {
-      background: #007BFF;
-      color: white;
-    }
-
-    .footer-note {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 16px;
-      color: #444;
-    }
-
-    .button-group {
-      text-align: center;
-      margin-top: 20px;
-    }
-
     .btn {
       background: #007BFF;
       color: white;
@@ -102,6 +72,46 @@
       text-align: center;
       font-size: 18px;
       color: #007BFF;
+      margin-top: 20px;
+    }
+
+    /* ===== TABLE & STICKY HEADER ===== */
+    .table-container {
+      max-height: 70vh;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      background: white;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background: #007BFF;
+      color: white;
+      z-index: 10;
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .button-group {
+      text-align: center;
       margin-top: 20px;
     }
 
@@ -132,7 +142,6 @@
 
 <main>
 
-  <!-- MOBILE SAFE UPDATED UPTO -->
   <div id="updatedTop"></div>
 
   <h2>Plot Maintenance Details</h2>
@@ -146,7 +155,7 @@
 
   <div id="result"></div>
 
-  <div class="button-group" style="display:none;" id="printButtons">
+  <div class="button-group" id="printButtons" style="display:none;">
     <button class="btn" onclick="window.print()">रसीद प्रिंट करें</button>
     <button class="btn" onclick="window.print()">PDF डाउनलोड करें</button>
   </div>
@@ -154,7 +163,8 @@
 </main>
 
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyhJui8Hbq344JDv9aVXd5X0yoDGfHWrGLleWYVIlPzzhrIYjkcLzc0a64WrlhiOr48aA/exec";
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbyhJui8Hbq344JDv9aVXd5X0yoDGfHWrGLleWYVIlPzzhrIYjkcLzc0a64WrlhiOr48aA/exec";
 
   function fetchData() {
     const plot = document.getElementById("plotInput").value.trim();
@@ -173,51 +183,58 @@
     printButtons.style.display = "none";
     loadingDiv.style.display = "block";
 
-    fetch(`${scriptURL}?plot=${plot}`)
+    fetch(`${scriptURL}?plot=${encodeURIComponent(plot)}`)
       .then(res => res.json())
       .then(data => {
 
-        /* TOP UPDATED UPTO (MOBILE SAFE) */
-      updatedTop.innerHTML = `
-  <div id="updatedBox" style="
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-    background: yellow;
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border-bottom: 2px solid red;
-  ">
-    🔴 UPDATED UPTO : ${data.updated_upto}
-  </div>
-`;
-
+        updatedTop.innerHTML = `
+          <div style="
+            position: sticky;
+            top: 0;
+            background: yellow;
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 2px solid red;
+            z-index: 9999;">
+            🔴 UPDATED UPTO : ${data.updated_upto}
+          </div>
+        `;
 
         let html = `<h3>नाम: ${data.name}</h3>`;
 
-        html += `<table>
-          <tr>
-            <th>माह</th>
-            <th>देय राशी</th>
-            <th>प्राप्त राशी</th>
-            <th>शेष राशी</th>
-            <th>प्राप्ति दिनांक</th>
-            <th>रिमार्क</th>
-          </tr>`;
+        html += `
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>माह</th>
+                  <th>देय राशी</th>
+                  <th>प्राप्त राशी</th>
+                  <th>शेष राशी</th>
+                  <th>प्राप्ति दिनांक</th>
+                  <th>रिमार्क</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
 
         data.maintenance.forEach(row => {
-          html += `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`;
+          html += `<tr>${row.map(cell => `<td>${cell || ""}</td>`).join("")}</tr>`;
         });
 
-        html += `</table>
+        html += `
+              </tbody>
+            </table>
+          </div>
 
           <div class="footer-note">
             यह एक सिस्टम जनरेटेड मेंटेनेंस विवरण है, यदि कोई त्रुटि हो तो संपर्क करें।<br>
             <strong>प्रवीण बागवान - 9977552106</strong><br><br>
             <strong>Updated upto - ${data.updated_upto}</strong>
-          </div>`;
+          </div>
+        `;
 
         resultDiv.innerHTML = html;
         loadingDiv.style.display = "none";
@@ -226,7 +243,8 @@
       .catch(err => {
         console.error(err);
         loadingDiv.style.display = "none";
-        resultDiv.innerHTML = "<p style='color:red;'>डेटा प्राप्त करने में त्रुटि हुई।</p>";
+        resultDiv.innerHTML =
+          "<p style='color:red;'>डेटा प्राप्त करने में त्रुटि हुई।</p>";
       });
   }
 </script>
