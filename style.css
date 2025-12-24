@@ -121,3 +121,18 @@ footer {
   object-fit: cover; /* ensures image fits inside the circle */
 }
 
+.table-container {
+  max-height: 70vh;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background: #007BFF;
+  color: white;
+  z-index: 10;
+}
+
