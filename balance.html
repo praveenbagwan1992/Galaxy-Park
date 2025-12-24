@@ -83,7 +83,8 @@
 
   const container = document.getElementById("balanceContainer");
 
-  months.forEach(month => {
+  months.slice().reverse().forEach(month => {
+
     const card = document.createElement("div");
     card.className = "sheet-card";
 
