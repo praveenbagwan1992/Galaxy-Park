@@ -220,9 +220,10 @@
               <tbody>
         `;
 
-        data.maintenance.forEach(row => {
-          html += `<tr>${row.map(cell => `<td>${cell || ""}</td>`).join("")}</tr>`;
-        });
+       data.maintenance.forEach(row => {
+  html += `<tr>${row.map(cell => `<td>${cell ?? ""}</td>`).join("")}</tr>`;
+});
+
 
         html += `
               </tbody>
